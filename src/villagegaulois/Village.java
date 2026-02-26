@@ -56,4 +56,77 @@ public class Village {
 		}
 		return chaine.toString();
 	}
+	
+	public static class Marche {
+		private Etal[] etals;
+		
+		public Marche(int nombreEtal) {
+			this.etals = new Etal[nombreEtal];
+		}
+		
+		 void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
+			 if (etals[indiceEtal].isEtalOccupe()) {
+				 System.out.println("L'etal est déja occupé");
+			 } else {
+				 etals[indiceEtal].occuperEtal(vendeur, produit, nbProduit);
+			 }
+		 }
+		 
+		 int trouverEtalLibre() {
+			 int indice = 0;
+			 while(indice<etals.length ) {
+				 if(!etals[indice].isEtalOccupe()) {
+					 return indice;
+				 }
+				 indice++;
+			 }
+			 return -1;
+		 }
+		 
+		 Etal[] trouverEtals(String produit) {
+			 int sizeTableau = 0;
+			 for(int i = 0; i<etals.length; i++) {
+				 if(etals[i].contientProduit(produit)) {
+					 sizeTableau++;
+				 }
+			 }
+			 if(sizeTableau == 0 ) {
+				 return null;
+			 }
+			 Etal[] listeEtalProduit = new Etal[sizeTableau];
+			 sizeTableau = 0;
+			 for(int i = 0; i<etals.length; i++) {
+				 if(etals[i].contientProduit(produit)) {
+					 listeEtalProduit[sizeTableau] = etals[i];
+					 sizeTableau++;
+				 }
+			 }
+			 return listeEtalProduit;
+		 }
+		 
+		 Etal trouverVendeur(Gaulois gaulois) {
+			 for(int i = 0; i<etals.length; i++) {
+				 if(etals[i].getVendeur() == gaulois) {
+					 return etals[i];
+				 }
+			 }
+			 return null;
+		 }
+		 
+		 void afficherMarche() {
+			 int nbOccupe = 0;
+
+			 for(int i = 0; i<etals.length; i++) {
+				 if(etals[i].isEtalOccupe()) {
+					 etals[i].afficherEtal();
+					 nbOccupe++;
+				 }
+			 }
+			 nbOccupe = etals.length - nbOccupe;
+			 if(nbOccupe != 0) {
+				 System.out.println("Il reste " + nbOccupe + "nbEtalVide + \" étals non utilisés dans le marché.\\n");
+			 }
+			 
+		 }
+	}
 }
